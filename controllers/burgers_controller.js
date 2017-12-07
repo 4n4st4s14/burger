@@ -7,12 +7,41 @@ var router = express.Router();
 //get all burgers
 //send request to module which sends it to orm
 //orm returns via module, module returns it back to controller to be rendered
-router.get('/', (req, res){
+router.get('/', function(req, res){
 
-    burgers.selectAll()
+    burgers.all(function(data){
+      var hbsObject = {
+        burger: data
+      };
+      console.log(hbsObject);
+      res.render("index", hbsObject);
+    });
 });
 
+router.post("/api/burgers", function(req, res){
+  burgers.create([
+    "type", "devoured"
+  ], [req.body.type, req.body.devoured], function(result){
+    //send back the id of the new burger
+    res.json({id: result.insertId});
+  });
+});
 
+router.put("/api/burgers/:id", function(req,res){
+  var condition = "id= " + req.params.id;
+
+  console.log("condition", condition);
+
+  burgers.update({
+    devoured: req.body.devoured
+  }, condition, function(result){
+    if (result.changedRows == 0){
+      return res.status(404).end();
+    }else{
+      res.status(200).end();
+    }
+  });
+});
 
 
 
