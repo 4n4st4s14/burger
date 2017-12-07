@@ -1,33 +1,27 @@
-var express = require("express");
-var bodyParser = require("body-parser");
+
 var method = require("method-override");
 
-var app = express();
+var express = require("express");
+var bodyParser = require("body-parser");
+
 var port = 3000;
 
-// Parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+var app = express();
 
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Set Handlebars.
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-var mysql = require("mysql");
+// Import routes and give the server access to them.
+var routes = require("./controllers/burgers_controller.js");
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "burgers_db"
-});
+app.use("/", routes);
 
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-
-  console.log("connected as id " + connection.threadId);
-});
+app.listen(port);

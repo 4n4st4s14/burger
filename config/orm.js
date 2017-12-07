@@ -60,7 +60,7 @@ connection.query(queryString, function(err, result){
 });
 },
 
-insertOne: function(table, col, val, cb){
+insertOne: function(table, cols, vals, cb){
 //we get a value to insert from contoller?
 //pass the value to sql
 var queryString = "INSERT INTO " + table;
@@ -69,7 +69,7 @@ queryString += " (";
 queryString += cols.toString();
 queryString += ") ";
 queryString += "VALUES (";
-queryString += questionMarks(val.length);
+queryString += questionMarks(vals.length);
 queryString += ") ";
 
 console.log(queryString);

@@ -1,5 +1,5 @@
 //wait to attach handlers until the DOM has loaded!
-
+console.log("linked");
 $(function(){
   $(".devoured").on("click", function(event){
     var id= $(this).data("id");
@@ -24,13 +24,13 @@ $(function(){
   });
 
 
-  $(".create").on("submit", function(event){
+  $("#createForm").on("submit", function(event){
 
     event.preventDefault();
 
     var newBurger = {
       name: $("#burg").val().trim(),
-      devoured: false
+     devoured: 0
     };
 
     //send to post
