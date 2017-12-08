@@ -1,16 +1,43 @@
-<h1>Eat Da Burger</h1>
+<div class="container-fluid text-center">
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display">Eat Da Burger</h1>
+</div>
+</div>
 
 <h2>Burgers You Have Yet to Conquer</h2>
 
-<ul>
-  {{#each burger}}
 
-    <li>{{this.burger_name}}</li>
-    <li>{{this.devoured}}</li>
-  {{/each}}
-</ul>
+  {{#each burger}}{{#unless this.devoured}}
 
-<h2>Conquered Burgers</h2>
+  <div>
+
+    <p class="burgerToEat">{{this.burger_name}}</p>
+
+
+      <button id="eatBurger" data-id="{{this.id}}" type="submit">Consume</button>
+{{/unless}}
+{{/each}}
+
+</div>
+
+
+
+
+
+
+<div class="devoured">
+  <p>Conquered Burgers</p>
+
+{{#each burger}}
+{{#if this.devoured}}
+<li><h3>{{this.burger_name}}</h3></li>
+
+{{/if}}
+{{/each}}
+</div>
+
 
 
 <h2>Add a burger</h2>

@@ -1,18 +1,13 @@
 //wait to attach handlers until the DOM has loaded!
 console.log("linked");
 $(function(){
-  $(".devoured").on("click", function(event){
+  $("#eatBurger").on("click", function(event){
     var id= $(this).data("id");
-    var devoured = $(this).data("devoured");
-
-    var devouredState = {
-      isDevoured : devoured
-    };
-
+    //var devoured = $(this).data("devoured");
     //send to PUT request in js, controller
-    $.ajax("/api/burgers" + id, {
+    $.ajax("/api/burgers/" + id, {
       type: "PUT",
-      data: devouredState
+      data: {devoured: true}
     }).then(
       function(){
         console.log("changed devoured state", devoured);
@@ -45,4 +40,19 @@ $(function(){
       }
     );
   });
+});
+
+
+$("#remove").on("click", function(event){
+  event.preventDefault();
+
+  var id=$(this).data("id");
+
+  $.ajax("/api/burgers/" + id,{
+    type: "DELETE"
+  }).then(
+    function(){
+      location.reload();
+    }
+  );
 });

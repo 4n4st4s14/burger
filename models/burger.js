@@ -14,9 +14,15 @@ var burgers = {
     });
   },
 
-  update: function(vals, condition, cb){
-    orm.updateOne("burgers", vals, condition, function(res){
-      cb(res);
+  update: function( condition, cb){
+    orm.updateOne("burgers", "devoured", true, "id", condition, cb); 
+  },
+
+  remove: function(condition, cb){
+    console.log(condition)
+    orm.removeFromTable('burgers', condition, (res)=>{
+
+      cb(res)
     });
   }
 };

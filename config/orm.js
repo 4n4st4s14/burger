@@ -49,7 +49,7 @@ selectAll: function(table, cb){
 //run a query, get data, return it to module
 // module returns it back to controller
 
-var queryString = "SELECT * FROM " + table + ";";
+var queryString = `SELECT * FROM ${table};`;
 
 connection.query(queryString, function(err, result){
 
@@ -84,24 +84,34 @@ connection.query(queryString, vals, function(err, result){
 
 },
 
-updateOne: function(table, vals, condition, cb){
-//check everything , console log it
-var queryString = "UPDATE " + table;
-
-queryString += "SET ";
-queryString += objToSql(vals);
-queryString += "WHERE ";
-queryString += condition;
-
-console.log(queryString);
-connection.query(queryString, function(err, result){
-  if (err){
-    throw err;
-  }
-
-  cb(result);
-});
+updateOne: function(table, param, new_value, key_name, key_value, cb) {
+  var query = "UPDATE ";
+  query += table;
+  query += " SET ";
+  query += param;
+  query += " = ";
+  query += new_value;
+  query += " WHERE ";
+  query += key_name;
+  query += " = ";
+  query += key_value;
+  query += ";";
+  // console.log(query);
+  connection.query(query, function(err, result) {
+    cb(result);
+  });
 }
+
+// removeFromTable: function(table, condition, cb){
+//   let queryString = "DELETE FROM ?? WHERE id = ?;";
+//   connection.query(queryString, [table, condition], (err, result)=> {
+//     if (err){
+//       throw err;
+//     }
+//
+//     cb(result);
+//   });
+// }
 
 
 };
